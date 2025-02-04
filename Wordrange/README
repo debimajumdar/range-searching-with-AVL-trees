@@ -1,0 +1,122 @@
+Name - Debi Majumdar
+PROF DAVIS SPRING 2024 CSE 101
+HW3- Range Searching with AVL Trees
+
+
+FILES
+Code files: Makefile, wordrange.cpp, avl.cpp, avl.h, node.h, node.cpp
+Test files:allwords-basic-output.txt, allwords-basic.txt, allwords-more-range-output.txt, 
+					allwords-more-range.txt simple-input.txt, simple-output.txt
+Extra files: README, .pdf
+
+I used a lot of inspiration and references from Professor Davis's class and pre-recorded lectures as well as TA sections. 
+I hope it works as I used a lot of practice with test3.
+My code originally had format errors so i copy pasted it again into the codio box after deleting it to fix the spacing/tab 
+I searched my errors online on stackoverflow and chatgpt to get some inspiration for how to fix some errors 
+There was also a lot of inspiration from Dr. Veenstra's CSE 13S for the Makefile.
+Some links I used for reference:
+https://www.geeksforgeeks.org/avl-trees-containing-a-parent-node-pointer/
+https://sites.cs.ucsb.edu/~suri/cs235/RangeSearching.pdf
+https://www.geeksforgeeks.org/exploring-range-trees/
+https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2015/fc870caae0e6812787bb5d50ea4d5e24_MIT6_046JS15_lec09.pdf
+https://www.youtube.com/watch?v=CVA85JuJEn0
+https://www.youtube.com/watch?v=vRwi_UcZGjU
+https://www.youtube.com/watch?v=jDM6_TnYIqE
+
+USAGE
+1) Run "make", to get executable "wordrange".
+2) Run "./wordrange <INPUT FILE> <OUTPUT FILE>"
+
+example of my chatgpt searches - 
+
+User
+codio@rebelexit-arcadesmile:~/workspace/Wordrange$ make
+g++ -g -Wall -c avl.cpp
+avl.cpp:84:6: error: prototype for ‘void AVL::insert(Node*, Node*)’ does not match any in class ‘AVL’
+ void AVL :: insert(Node* start, Node* to_insert)
+      ^~~
+In file included from avl.cpp:5:0:
+avl.h:20:9: error: candidates are: Node* AVL::insert(Node*, Node*)
+   Node* insert(Node*, Node*);  // inserts a node into tree
+         ^~~~~~
+avl.h:19:8: error:                 void AVL::insert(std::__cxx11::string)
+   void insert(string);  // insert wrapper function
+        ^~~~~~
+Makefile:13: recipe for target 'avl.o' failed
+make: *** [avl.o] Error 1
+ChatGPT
+The error messages indicate a mismatch between the function prototypes declared in the avl.h header file and the function definitions in the avl.cpp implementation file. Specifically, the insert function in the avl.cpp file has a different return type than the corresponding prototype in the avl.h file.
+
+Here's how you can resolve this issue:
+
+Check the prototypes in avl.h:
+Ensure the function prototypes in avl.h match the function definitions in avl.cpp.
+
+Fix the return type of the insert function in avl.cpp:
+Make sure the insert function definition in avl.cpp matches the prototype in avl.h.
+
+Let's go through these steps in detail.
+
+1. Check the Prototypes in avl.h
+From the error messages, it looks like avl.h has the following prototypes:
+
+cpp
+Copy code
+// avl.h
+class AVL {
+public:
+    Node* insert(Node*, Node*);  // inserts a node into tree
+    void insert(std::string);  // insert wrapper function
+};
+2. Fix the Function Definition in avl.cpp
+From the error messages, it looks like the function definition in avl.cpp is:
+
+cpp
+Copy code
+// avl.cpp
+void AVL::insert(Node* start, Node* to_insert) {
+    // Function implementation
+}
+The return type void in the definition does not match the return type Node* in the prototype.
+
+To fix this, update the function definition in avl.cpp to match the prototype in avl.h:
+
+cpp
+Copy code
+// avl.cpp
+Node* AVL::insert(Node* start, Node* to_insert) {
+    // Function implementation
+}
+Here is how both files should look after the fix:
+
+avl.h
+cpp
+Copy code
+#ifndef AVL_H
+#define AVL_H
+
+#include <string>
+#include "node.h"
+
+class AVL {
+public:
+    Node* insert(Node*, Node*);  // inserts a node into tree
+    void insert(std::string);  // insert wrapper function
+};
+
+#endif
+avl.cpp
+cpp
+Copy code
+#include "avl.h"
+#include "node.h"
+
+// Correct function definition matching the prototype
+Node* AVL::insert(Node* start, Node* to_insert) {
+    // Function implementation
+}
+
+// Other functions in avl.cpp
+After making these changes, try running make again. This should resolve the prototype mismatch error.
+
+
